@@ -27,6 +27,25 @@ lu <- function(last=last, cd=cd, d=d, erg){
   return(erg)
 }
 
+# modify factors
+mod_factors <- function(y, x){
+  tab <- table(x,y)
+  nx  <- rowSums(tab)
+  ptab <- tab/nx
+  pp  <- colMeans(ptab)
+  ptabc <- t(apply(ptab,1, function(x) x-pp))
+  sig   <- matrix(0, nrow=ncol(tab), ncol=ncol(tab))
+  for(j in 1:nrow(tab)){
+    sig <- sig+nx[j]*ptabc[j,]%*%t(ptabc[j,])
+  }
+  sig <- sig/(length(y)-1)
+  v <- eigen(sig)$vectors[,1]
+  sa <- apply(ptabc, 1, function(x) v%*%x) 
+  xnew <- as.numeric(x)
+  xnew <- sapply(1:length(xnew), function(j) which(order(sa)==xnew[j]))
+  return(xnew)
+}
+
 # compute ordered values 
 ord_values <- function(x){
   if(!all((x - round(x)) == 0) || length(unique(x))>50){

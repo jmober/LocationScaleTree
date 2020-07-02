@@ -41,6 +41,6 @@ plot(mod,"beta", ellipse_a=2.4, ellipse_b=0.25, ellipse_x=1.5, ellipse_y=0, bran
      cex.branches=1.8, cex.coefs=1.8, cex.main=2.5, cex.number=1.3)
 
 # variance term 
-plot(mod,"gamma", ellipse_a=0.8, ellipse_b=0.2, ellipse_x=0, ellipse_y=0, branch_adj=-0.4, title="variance term", draw_numbers=T, 
+plot(mod,"gamma", ellipse_a=0.5, ellipse_b=0.2, ellipse_x=0.1, ellipse_y=0, branch_adj=-0.4, title="variance term", draw_numbers=T, 
      cex.branches=1.8, cex.coefs=1.8, cex.main=2.5, cex.number=1.3)
 

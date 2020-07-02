@@ -53,6 +53,13 @@ LocScaleTree <- function(y,
     var_names <- paste0("x",1:nvar)
   }
   
+  # modify design
+  for(j in 1:nvar){
+    if(is.factor(DM_kov[,j])){
+      DM_kov[,j] <- mod_factors(y,DM_kov[,j])
+    }
+  }
+  
   ordered_values <- lapply(1:nvar, function(j) ord_values(DM_kov[,j]))
   n_levels       <- sapply(ordered_values,length)
   thresholds     <- lapply(ordered_values,thresh)
@@ -142,9 +149,11 @@ LocScaleTree <- function(y,
       }
     }
     
+    n_comp <- sum(sapply(1:2, function(j) !all(is.na(unlist(splits_evtl[[count]][[j]])))))
+    
     # test decision 
     adaption <- vars_evtl[[count]][[comp]][knoten]
-    crit_val <- quantile(dev,1-(alpha/adaption))
+    crit_val <- quantile(dev,1-(alpha/adaption/n_comp))
     Tj       <- max(dv[[variable]][[comp]])
     proof    <- Tj > crit_val
     devs[count]    <- Tj
